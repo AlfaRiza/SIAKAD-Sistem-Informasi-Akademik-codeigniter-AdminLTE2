@@ -15,10 +15,32 @@ class Mahasiswa extends CI_Controller
         $nama       = $this->input->post('nama');
         $nim        = $this->input->post('nim');
         $jurusan    = $this->input->post('jurusan');
+        $alamat     = $this->input->post('alamat');
+        $email      = $this->input->post('email');
+        $no_telp    = $this->input->post('no_telp');
+        $foto       = $_FILES['foto'];
+
+        if ($foto !== '') {
+            $config['upload_path'] = './assets/foto';
+            $config['allowed_types'] = 'jpg|png|gif';
+
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('foto')) {
+                echo "upload gagal";
+                die();
+            } else {
+                $foto = $this->upload->data('file_name');
+            }
+        }
+
         $data = array(
             'nama'      => $nama,
             'nim'       => $nim,
-            'jurusan'    => $jurusan
+            'jurusan'   => $jurusan,
+            'alamat'    => $alamat,
+            'email'     => $email,
+            'no_telp'   => $no_telp,
+            'foto'      => $foto
         );
 
         $this->m_mahasiswa->input_data($data, 'mahasiswa');
@@ -46,15 +68,23 @@ class Mahasiswa extends CI_Controller
 
     public function update()
     {
-        $id = $this->input->post('id');
-        $nama = $this->input->post('nama');
-        $nim = $this->input->post('nim');
-        $jurusan = $this->input->post('jurusan');
+        $id         = $this->input->post('id');
+        $nama       = $this->input->post('nama');
+        $nim        = $this->input->post('nim');
+        $jurusan    = $this->input->post('jurusan');
+        $alamat     = $this->input->post('alamat');
+        $email      = $this->input->post('email');
+        $no_telp    = $this->input->post('no_telp');
+        $foto       = $_FILES['foto'];
 
         $data = [
-            'nama' => $nama,
-            'nim' => $nim,
-            'jurusan' => $jurusan,
+            'nama'      => $nama,
+            'nim'       => $nim,
+            'jurusan'   => $jurusan,
+            'alamat'    => $alamat,
+            'email'     => $email,
+            'no_telp'   => $no_telp,
+            'foto'      => $foto
         ];
 
         $where = [
@@ -63,5 +93,17 @@ class Mahasiswa extends CI_Controller
 
         $this->m_mahasiswa->update_data($where, $data, 'mahasiswa');
         redirect('mahasiswa/index');
+    }
+
+    public function detail($id)
+    {
+        $this->load->model('m_mahasiswa');
+        $detail = $this->m_mahasiswa->detail_mahasiswa($id);
+        $data['detail'] = $detail;
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar');
+        $this->load->view('detail', $data);
+        $this->load->view('templates/footer');
     }
 }
