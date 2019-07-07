@@ -135,4 +135,49 @@ class Mahasiswa extends CI_Controller
 
         $this->dompdf->stream("Data Mahasiswa.pdf", array('Attachment' => 0));
     }
+
+    public function excel()
+    {
+        $data['mahasiswa'] = $this->m_mahasiswa->tampilData('mahasiswa')->result();
+
+        require(APPPATH . 'PHPExcel/Classes/PHPExcel.php');
+        require(APPPATH . 'PHPExcel/Classes/PHPExcel/Writer/Excel2007.php');
+
+        $object = new PHPExcel();
+
+        $object->getProperties()->setCreator("M.Alfa Riza");
+        $object->getProperties()->setLastModifiedBy("M.Alfa Riza");
+        $object->getProperties()->setTitle("Daftar Mahasiswa");
+        $object->setActiveSheetIndex(0);
+        $object->getActiveSheet()->setCellValue('A1', 'No');
+        $object->getActiveSheet()->setCellValue('B1', 'Nama');
+        $object->getActiveSheet()->setCellValue('C1', 'Nim');
+        $object->getActiveSheet()->setCellValue('D1', 'Jurusan');
+        $object->getActiveSheet()->setCellValue('E1', 'Alamat');
+        $object->getActiveSheet()->setCellValue('F1', 'Email');
+        $object->getActiveSheet()->setCellValue('G1', 'No Telpon');
+
+        $baris = 2;
+        $no = 1;
+
+        foreach ($data as $mhs) :
+
+            $object->getActiveSheet()->setCellValue('A' . $baris, $no++);
+            $object->getActiveSheet()->setCellValue('B' . $baris, $mhs->nama);
+            $object->getActiveSheet()->setCellValue('C' . $baris, $mhs->nim);
+            $object->getActiveSheet()->setCellValue('D' . $baris, $mhs->jurusan);
+            $object->getActiveSheet()->setCellValue('E' . $baris, $mhs->alamat);
+            $object->getActiveSheet()->setCellValue('F' . $baris, $mhs->email);
+            $object->getActiveSheet()->setCellValue('G' . $baris, $mhs->no_telp);
+        endforeach;
+        $filename = "Data_Mahasiswa" . '.xlsx';
+        $object->getActiveSheet()->setTitle("Data Mahasiswa");
+        header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer = PHPExcel_IOFactory::createWriter($object, 'Excel2007');
+        $writer->save('php://output');
+        exit;
+    }
 }

@@ -13,7 +13,16 @@
     <section class="content">
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#tambahdata"> <i class="fa fa-plus"></i> Tambah Data Mahasiswa</button>
         <a href="<?= base_url('mahasiswa/print') ?>" class="btn btn-danger"> <i class="fa fa-print"></i> Print</a>
-        <a href="<?= base_url('mahasiswa/pdf') ?>" class="btn btn-warning"> <i class="fa fa-file"></i> Export Pdf</a>
+        <div class="dropdown inline">
+            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-download"></i>Export
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><a href="<?= base_url('mahasiswa/pdf') ?>">PDF</a></li>
+                <li><a href="<?= base_url('mahasiswa/excel') ?>">Excel</a></li>
+            </ul>
+        </div>
         <table class="table table-striped">
             <tr>
                 <th>No</th>
