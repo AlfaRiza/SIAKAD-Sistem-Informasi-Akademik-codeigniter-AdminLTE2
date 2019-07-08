@@ -11,6 +11,7 @@
     </section>
 
     <section class="content">
+        <?= $this->session->flashdata('message'); ?>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#tambahdata"> <i class="fa fa-plus"></i> Tambah Data Mahasiswa</button>
         <a href="<?= base_url('mahasiswa/print') ?>" class="btn btn-danger"> <i class="fa fa-print"></i> Print</a>
         <div class="dropdown inline">
@@ -22,6 +23,12 @@
                 <li><a href="<?= base_url('mahasiswa/pdf') ?>">PDF</a></li>
                 <li><a href="<?= base_url('mahasiswa/excel') ?>">Excel</a></li>
             </ul>
+        </div>
+        <div class="navbar-form navbar-right">
+            <?= form_open('mahasiswa/search') ?>
+            <input type="text" name="keyword" class="form-control" placeholder="Search">
+            <button type="submit" class="btn btn-success"> <i class="fa fa-search"></i> </button>
+            <?= form_close(); ?>
         </div>
         <table class="table table-striped">
             <tr>

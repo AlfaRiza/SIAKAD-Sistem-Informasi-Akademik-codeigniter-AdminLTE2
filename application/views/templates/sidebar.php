@@ -27,12 +27,12 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
             <li class="active treeview">
-                <a href="#">
+                <a href="index">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
             <li class="active treeview">
-                <a href="#">
+                <a href="<?= base_url('admin/mahasiswa'); ?>">
                     <i class="fa fa-graduation-cap"></i> <span>Mahasiswa</span>
                 </a>
             </li>

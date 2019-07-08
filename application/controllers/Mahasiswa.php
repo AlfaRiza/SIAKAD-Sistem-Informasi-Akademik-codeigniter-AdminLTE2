@@ -44,6 +44,10 @@ class Mahasiswa extends CI_Controller
         );
 
         $this->m_mahasiswa->input_data($data, 'mahasiswa');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Data Berhasil Ditambahkan
+    </div>');
         redirect('mahasiswa/index');
     }
 
@@ -51,6 +55,10 @@ class Mahasiswa extends CI_Controller
     {
         $where = ['id' => $id];
         $this->m_mahasiswa->hapus_data($where, 'mahasiswa');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Data Berhasil DiHapus
+    </div>');
         redirect('mahasiswa/index');
     }
 
@@ -92,6 +100,10 @@ class Mahasiswa extends CI_Controller
         ];
 
         $this->m_mahasiswa->update_data($where, $data, 'mahasiswa');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Data Berhasil Diedit
+    </div>');
         redirect('mahasiswa/index');
     }
 
@@ -179,5 +191,15 @@ class Mahasiswa extends CI_Controller
         $writer = PHPExcel_IOFactory::createWriter($object, 'Excel2007');
         $writer->save('php://output');
         exit;
+    }
+
+    public function search()
+    {
+        $keyword = $this->input->post('keyword');
+        $data['mahasiswa'] = $this->m_mahasiswa->get_keyword($keyword);
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar');
+        $this->load->view('mahasiswa', $data);
+        $this->load->view('templates/footer');
     }
 }

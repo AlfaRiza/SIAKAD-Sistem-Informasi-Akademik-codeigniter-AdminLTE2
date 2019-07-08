@@ -26,4 +26,13 @@ class Admin extends CI_Controller
 		$this->load->view('dashboard');
 		$this->load->view('templates/footer');
 	}
+
+	public function mahasiswa()
+	{
+		$data['mahasiswa'] = $this->m_mahasiswa->tampilData()->result();
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('mahasiswa', $data);
+		$this->load->view('templates/footer');
+	}
 }
